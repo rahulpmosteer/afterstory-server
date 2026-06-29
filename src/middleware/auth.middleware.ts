@@ -32,8 +32,6 @@ export const requireAuth = async (
 
     const token = authHeader.split(' ')[1];
 
-    // Use Supabase's own method to verify the token
-    // This is cleaner than jwt.verify() for a Supabase project
     const { data, error } = await supabase.auth.getUser(token);
 
     if (error || !data.user) {
@@ -43,11 +41,18 @@ export const requireAuth = async (
       });
     }
 
+    // Fetch role from profiles table
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', data.user.id)
+      .single();
+
     // Attach verified user to request
     req.user = {
       id: data.user.id,
       email: data.user.email ?? '',
-      role: (data.user.user_metadata?.['role'] as string) ?? 'family'
+      role: profile?.role ?? 'family',
     };
 
     next();

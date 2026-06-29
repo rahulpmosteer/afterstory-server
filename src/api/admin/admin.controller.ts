@@ -13,6 +13,8 @@ export class AdminController {
 
   // Middleware check — only admins can access
   static requireAdmin(req: Request, res: Response, next: any) {
+    console.log('requireAdmin check — user:', req.user);
+    console.log('requireAdmin check — role:', req.user?.role);
     if (req.user?.role !== 'admin') {
       return res.status(403).json({
         success: false,
