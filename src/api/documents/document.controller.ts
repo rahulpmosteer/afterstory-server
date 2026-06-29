@@ -66,7 +66,7 @@ export class DocumentController {
   }
 
   static async uploadDocument(
-    req: Request & { file?: Express.Multer.File | undefined },
+    req: Request & { file?: any },
     res: Response
     ) {
     try {
