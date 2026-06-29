@@ -1,5 +1,6 @@
 // src/api/documents/document.controller.ts
 
+import 'multer';
 import type { Request, Response } from 'express';
 import { DocumentService } from '../../services/document.service.js';
 import {
